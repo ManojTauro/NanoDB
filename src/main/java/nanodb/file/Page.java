@@ -14,6 +14,10 @@ public class Page {
         this.buffer = ByteBuffer.allocateDirect(NanoDBConstants.PAGE_SIZE);
     }
 
+    public Page(byte[] b) {
+        buffer = ByteBuffer.wrap(b);
+    }
+
     public int getInt(int offset) {
         return buffer.getInt(offset);
     }
@@ -49,5 +53,14 @@ public class Page {
     ByteBuffer contents() {
         buffer.position(0);
         return buffer;
+    }
+
+    /**
+     * @param len - Number of characters in a String to be stored in a byte array
+     * @return - Maximum bytes needed to store the string with length 'len'
+     */
+    public static int maxLength(int len) {
+        float bytesPerChar = CHARSET.newEncoder().maxBytesPerChar();
+        return Integer.BYTES + (len * (int) bytesPerChar);
     }
 }

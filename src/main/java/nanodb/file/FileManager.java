@@ -3,13 +3,11 @@ package nanodb.file;
 import nanodb.constants.NanoDBConstants;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
 public class FileManager {
     private final File dbDirectory;
@@ -90,6 +88,15 @@ public class FileManager {
             for (File file: tempFiles) {
                 if (!file.delete()) System.out.println("Failed to delete file "+file.getName());
             }
+        }
+    }
+
+    public int length(String filename) {
+        try {
+            RandomAccessFile f = getFile(filename);
+            return (int) (f.length() / NanoDBConstants.PAGE_SIZE);
+        } catch (IOException ex) {
+            throw new RuntimeException("cannot access " + filename);
         }
     }
 }
