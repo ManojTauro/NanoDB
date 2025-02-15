@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b57491a7-c403-4328-ab2d-f1dbf8716405" name="Changes" comment="committing IDE and gradle files">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/log/LogIterator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/log/LogManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/nanodb/log/LogManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="b57491a7-c403-4328-ab2d-f1dbf8716405" name="Changes" comment="Implemented Log Manager and LogManagerTest.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/buffer/Buffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/buffer/BufferManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/exceptions/BufferAbortException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nanodb/constants/NanoDBConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nanodb/constants/NanoDBConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nanodb/file/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nanodb/file/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nanodb/file/Page.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nanodb/file/Page.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -50,7 +46,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -62,22 +58,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build NanoDB.executor": "Run",
-    "Gradle.LogManagerTest.appendTest.executor": "Debug",
-    "Gradle.LogManagerTest.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build NanoDB.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LogManagerTest.appendTest.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.LogManagerTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.continuedev.continueintellijextension.services.ContinueExtensionConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -167,28 +163,32 @@
       <option name="project" value="LOCAL" />
       <updated>1738607530205</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implemented Log Manager and LogManagerTest.java">
+      <option name="closed" value="true" />
+      <created>1739118109878</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739118109878</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Implemented basic file manager for reading and writing buffers backed by Page class." />
     <MESSAGE value="committing IDE and gradle files" />
-    <option name="LAST_COMMIT_MESSAGE" value="committing IDE and gradle files" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nanodb/log/LogManager.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nanodb/log/LogManager.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Implemented Log Manager and LogManagerTest.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Log Manager and LogManagerTest.java" />
   </component>
 </project>
