@@ -3,91 +3,113 @@ package nanodb.transaction.recovery;
 import nanodb.file.Block;
 import nanodb.file.Page;
 
-import java.util.Arrays;
-
-public sealed interface LogRecord permits TransactionRecord, DataUpdateRecord, CheckPointRecord {
+public sealed interface LogRecord permits StartRecord, TransactionRecord, DataUpdateRecord, CheckPointRecord {
     byte[] toBytes();
+
     int op();
+
+    static LogRecord fromBytes(byte[] rec) {
+        Page p = new Page(rec);
+        int op = p.getInt(0);
+
+        return switch (OpCode.values()[op]) {
+            case CHECKPOINT -> new CheckPointRecord(op);
+            case START -> new StartRecord(op, p.getInt(Integer.BYTES));
+            case COMMIT -> new CommitRecord(op, p.getInt(Integer.BYTES));
+            case ROLLBACK -> new RollbackRecord(op, p.getInt(Integer.BYTES));
+            case SETINT -> deserialize(p, SetIntRecord::new, (page, offset) -> p.getInt(offset));
+            case SETSTRING -> deserialize(p, SetStringRecord::new, (page, offset) -> p.getString(offset));
+        };
+    }
+
+    private static <T> LogRecord deserialize(Page p, RecordConstructor<T> constructor, DataUpdateRecord.DataReader<T> dataReader) {
+        int op = p.getInt(0);
+        int txNum = p.getInt(Integer.BYTES);
+        String fileName = p.getString(Integer.BYTES * 2);
+        int fileNameLen = Page.maxLength(fileName.length());
+        int blknum = p.getInt(Integer.BYTES * 2 + fileNameLen);
+        Block blk = new Block(fileName, blknum);
+        int offset = p.getInt(Integer.BYTES * 3 + fileNameLen);
+        T value = dataReader.read(p, Integer.BYTES * 4 + fileNameLen);
+
+        return constructor.create(op, txNum, blk, offset, value);
+    }
+
+    final class Utils {
+        static byte[] createBasicRec(int op, int size) {
+            byte[] rec = new byte[size];
+            Page p = new Page(rec);
+            p.putInt(0, op);
+
+            return rec;
+        }
+
+        // Store op and txNum
+        static byte[] createTxnRec(int op, int txNum, int size) {
+            byte[] rec = createBasicRec(op, size);
+            Page p = new Page(rec);
+            p.putInt(Integer.BYTES, txNum);
+
+            return rec;
+        }
+    }
+
+    @FunctionalInterface
+    interface DataReader<T> {
+        T read(Page p, int pos);
+    }
+
+    @FunctionalInterface
+    interface RecordConstructor<T> {
+        LogRecord create(int op, int txNum, Block blk, int offset, T value);
+    }
+}
+
+record StartRecord(int op, int txNum) implements LogRecord {
+
+    @Override
+    public byte[] toBytes() {
+        return Utils.createTxnRec(op, txNum, Integer.BYTES * 2);
+    }
 }
 
 record CheckPointRecord(int op) implements LogRecord {
 
     @Override
     public byte[] toBytes() {
-        byte[] rec = new byte[Integer.BYTES];
-        Page p = new Page(rec);
-        p.putInt(0, op);
-
-        return rec;
+        return Utils.createBasicRec(op, Integer.BYTES);
     }
 }
 
 sealed interface TransactionRecord extends LogRecord permits CommitRecord, RollbackRecord {
-    int txnNum();
+    int txNum();
 
     default byte[] toBytes() {
-        // Store op and txnNum
-        byte[] rec = new byte[Integer.BYTES * 2];
-        Page p = new Page(rec);
-        p.putInt(0, op());
-        p.putInt(Integer.BYTES, txnNum());
-
-        return rec;
+        return Utils.createTxnRec(op(), txNum(), Integer.BYTES * 2);
     }
 }
 
-record CommitRecord(int op, int txnNum) implements TransactionRecord {}
+record CommitRecord(int op, int txNum) implements TransactionRecord { }
 
-record RollbackRecord(int op, int txnNum) implements TransactionRecord {}
+record RollbackRecord(int op, int txNum) implements TransactionRecord { }
 
-sealed interface DataUpdateRecord extends LogRecord permits SetIntRecord, SetStringRecord {
-    int txnNum();
-    Block blk();
-    int offset();
+record SetIntRecord(int op, int txNum, Block blk, int offset, int value) implements DataUpdateRecord {
 
-
-    default byte[] toBytes(int op, int valueLen, DataWriter writer) {
-        int fileNamePos = Integer.BYTES * 2;
-        int blockPos = fileNamePos + Page.maxLength(blk().filename().length());
-        int offsetPos = blockPos + Integer.BYTES;
-        int valPos = offsetPos + Integer.BYTES;
-        int recordLen = valPos + valueLen;
-
-        byte[] rec = new byte[recordLen];
-        Page p = new Page(rec);
-
-        p.putInt(0, op);
-        p.putInt(Integer.BYTES, txnNum());
-        p.putString(fileNamePos, blk().filename());
-        p.putInt(blockPos, blk().blknum());
-        p.putInt(offsetPos, offset());
-
-        writer.write(p, valPos);
-
-        return rec;
-    }
-
-    @FunctionalInterface
-    interface DataWriter {
-        void write(Page p, int offset);
-    }
-}
-
-record SetIntRecord(int op, int txnNum, Block blk, int offset, int value) implements DataUpdateRecord {
+    @Override
     public byte[] toBytes() {
         DataWriter writer = (page, offset) -> page.putInt(offset, value);
-        return toBytes(op, Integer.BYTES, writer);
+        return serialize(op, Integer.BYTES, writer);
     }
 }
 
-record SetStringRecord(int op, int txnNum, Block blk, int offset, String value) implements DataUpdateRecord {
+record SetStringRecord(int op, int txNum, Block blk, int offset, String value) implements DataUpdateRecord {
 
     @Override
     public byte[] toBytes() {
         DataWriter writer = (page, offset) -> page.putString(offset, value);
         int valLen = Page.maxLength(value.length());
 
-        return toBytes(op, valLen, writer);
+        return serialize(op, valLen, writer);
     }
 }
 

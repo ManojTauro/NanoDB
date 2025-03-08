@@ -60,7 +60,7 @@ public class LogManager {
         return blk;
     }
 
-    private void flush() {
+    public void flush() {
         fileManager.write(currentBlk, logPage);
         lastSavedLSN = latestLSN;
     }
@@ -73,5 +73,4 @@ public class LogManager {
         flush();
         return new LogIterator(fileManager, currentBlk);
     }
-
 }

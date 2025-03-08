@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b57491a7-c403-4328-ab2d-f1dbf8716405" name="Changes" comment="Implemented Log Manager and LogManagerTest.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/buffer/Buffer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/buffer/BufferManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/exceptions/BufferAbortException.java" afterDir="false" />
+    <list default="true" id="b57491a7-c403-4328-ab2d-f1dbf8716405" name="Changes" comment="Implemented a Log Records and it's implementations">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/DataUpdateRecord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/LogProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/OpCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/RecoveryManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/Transaction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nanodb/constants/NanoDBConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nanodb/constants/NanoDBConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nanodb/log/LogManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nanodb/log/LogManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/LogRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nanodb/transaction/recovery/LogRecord.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +30,9 @@
       <list>
         <option value="Record" />
         <option value="JUnit5 Test Class" />
+        <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -64,6 +70,7 @@
     &quot;Gradle.LogManagerTest.appendTest.executor&quot;: &quot;Debug&quot;,
     &quot;Gradle.LogManagerTest.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
@@ -75,6 +82,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="nanodb.transaction.recovery" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -171,7 +181,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739118109878</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Implemented a Buffer Pool manager">
+      <option name="closed" value="true" />
+      <created>1739639679226</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739639679226</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Implemented a Log Records and it's implementations">
+      <option name="closed" value="true" />
+      <created>1740352860130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1740352860130</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -189,6 +215,8 @@
     <MESSAGE value="Implemented basic file manager for reading and writing buffers backed by Page class." />
     <MESSAGE value="committing IDE and gradle files" />
     <MESSAGE value="Implemented Log Manager and LogManagerTest.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented Log Manager and LogManagerTest.java" />
+    <MESSAGE value="Implemented a Buffer Pool manager" />
+    <MESSAGE value="Implemented a Log Records and it's implementations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented a Log Records and it's implementations" />
   </component>
 </project>
