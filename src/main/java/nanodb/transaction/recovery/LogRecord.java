@@ -93,23 +93,3 @@ record CommitRecord(int op, int txNum) implements TransactionRecord { }
 
 record RollbackRecord(int op, int txNum) implements TransactionRecord { }
 
-record SetIntRecord(int op, int txNum, Block blk, int offset, int value) implements DataUpdateRecord {
-
-    @Override
-    public byte[] toBytes() {
-        DataWriter writer = (page, offset) -> page.putInt(offset, value);
-        return serialize(op, Integer.BYTES, writer);
-    }
-}
-
-record SetStringRecord(int op, int txNum, Block blk, int offset, String value) implements DataUpdateRecord {
-
-    @Override
-    public byte[] toBytes() {
-        DataWriter writer = (page, offset) -> page.putString(offset, value);
-        int valLen = Page.maxLength(value.length());
-
-        return serialize(op, valLen, writer);
-    }
-}
-

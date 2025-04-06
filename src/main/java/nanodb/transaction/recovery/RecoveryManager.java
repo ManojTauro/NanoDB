@@ -2,6 +2,7 @@ package nanodb.transaction.recovery;
 
 import nanodb.buffer.BufferManager;
 import nanodb.log.LogManager;
+import nanodb.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,7 +32,7 @@ public class RecoveryManager {
     /**
         Rollback current transaction
      */
-    private void rollback() {
+    public void rollback() {
         for (LogRecord record: lp.readLogs()) {
             switch (record) {
                 case StartRecord startRecord when startRecord.txNum() == txNum -> {
@@ -43,7 +44,7 @@ public class RecoveryManager {
         }
     }
 
-    private void recover() {
+    public void recover() {
         List<Integer> finishedTxs = new ArrayList<>();
 
         for (LogRecord record: lp.readLogs()) {

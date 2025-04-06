@@ -29,8 +29,36 @@ public sealed interface DataUpdateRecord extends LogRecord permits SetIntRecord,
         return rec;
     }
 
+    static DataUpdateRecord createStringRecord(int op, int txNum, Block blk, int offset, String value) {
+        return new SetStringRecord(op, txNum, blk, offset, value);
+    }
+
+    static DataUpdateRecord createIntRecord(int op, int txNum, Block blk, int offset, int value) {
+        return new SetIntRecord(op, txNum, blk, offset, value);
+    }
+
     @FunctionalInterface
     interface DataWriter {
         void write(Page p, int offset);
+    }
+}
+
+record SetIntRecord(int op, int txNum, Block blk, int offset, int value) implements DataUpdateRecord {
+
+    @Override
+    public byte[] toBytes() {
+        DataWriter writer = (page, offset) -> page.putInt(offset, value);
+        return serialize(op, Integer.BYTES, writer);
+    }
+}
+
+record SetStringRecord(int op, int txNum, Block blk, int offset, String value) implements DataUpdateRecord {
+
+    @Override
+    public byte[] toBytes() {
+        DataWriter writer = (page, offset) -> page.putString(offset, value);
+        int valLen = Page.maxLength(value.length());
+
+        return serialize(op, valLen, writer);
     }
 }
