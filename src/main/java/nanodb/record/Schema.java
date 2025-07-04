@@ -45,11 +45,11 @@ public class Schema {
     }
 
     public int type(String name) {
-        return info.get(name).type;
+        return info.get(name).type();
     }
 
     public int length(String name) {
-        return info.get(name).length;
+        return info.get(name).length();
     }
 
     record FieldInfo(int type, int length) { }

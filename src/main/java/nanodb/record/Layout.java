@@ -37,6 +37,12 @@ public class Layout {
         slotsize = pos;
     }
 
+    public Layout(Schema schema, Map<String, Integer> offsets, int slotsize) {
+        this.schema = schema;
+        this.offsets = offsets;
+        this.slotsize = slotsize;
+    }
+
     public Schema schema() {
         return schema;
     }
